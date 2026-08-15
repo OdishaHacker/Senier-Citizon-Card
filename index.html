@@ -3,248 +3,482 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Senior Citizen Card Generator</title>
+  <title>Senior Citizen Card Generator | Odisha Police</title>
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- html2canvas library for downloading image -->
+  <!-- html2canvas for High Quality Card Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #172554;
+      --accent: #dc2626;
+      --accent-hover: #b91c1c;
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.95);
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --radius-lg: 18px;
+      --radius-md: 10px;
+      --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 10px 25px -5px rgba(30, 58, 138, 0.25);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
-      background: #eef2f7;
-      padding: 20px;
-      color: #333;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-main);
+      padding-bottom: 30px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
+    /* Top Navbar */
+    .navbar {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+    }
+
+    .nav-brand i {
+      font-size: 22px;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .nav-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .author-badge {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(30, 58, 138, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f8fafc;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .author-badge i {
+      color: #ef4444;
+    }
+
+    /* Main Container Grid */
+    .main-wrapper {
+      max-width: 1280px;
+      margin: 28px auto 0;
+      padding: 0 20px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 28px;
       align-items: start;
     }
 
-    /* Form Section */
-    .form-box {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    /* Modern Card Panels */
+    .panel {
+      background: var(--surface-glass);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
-    .form-box h2 {
-      margin-bottom: 20px;
-      font-size: 20px;
-      color: #1a365d;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 10px;
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
     }
 
+    .panel-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-header h2 i {
+      color: var(--primary);
+    }
+
+    .badge-live {
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* Form Controls */
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
+      gap: 6px;
     }
 
-    .form-group.full-width {
+    .form-group.full {
       grid-column: span 2;
     }
 
     label {
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #4a5568;
-    }
-
-    input, select {
-      padding: 9px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 14px;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    input:focus, select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-    }
-
-    .btn-group {
-      grid-column: span 2;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
+      align-items: center;
+      gap: 6px;
     }
 
-    button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
+    label i {
+      font-size: 12px;
+      color: #94a3b8;
     }
 
-    .btn-download {
-      background: #2563eb;
-      color: white;
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
 
-    .btn-download:hover {
-      background: #1d4ed8;
+    input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      background: #f8fafc;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #0f172a;
+      transition: all 0.25s ease;
+      outline: none;
     }
 
-    .btn-print {
-      background: #0f172a;
-      color: white;
-    }
-
-    .btn-print:hover {
-      background: #334155;
-    }
-
-    /* Preview Section */
-    .preview-box {
+    input:focus {
       background: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.12);
+    }
+
+    /* Photo Upload Box */
+    .file-dropzone {
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .file-dropzone:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+
+    .file-dropzone input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-dropzone-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .file-dropzone-content i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+
+    .file-dropzone-content span {
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    /* Action Buttons */
+    .btn-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+      grid-column: span 2;
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #172554, #1d4ed8);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+    }
+
+    .btn-dark {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .btn-dark:hover {
+      background: #1e293b;
+      transform: translateY(-1.5px);
+    }
+
+    /* Card Preview Area */
+    .preview-sticky {
       position: sticky;
-      top: 20px;
+      top: 90px;
     }
 
-    .preview-box h2 {
-      margin-bottom: 20px;
-      font-size: 20px;
-      color: #1a365d;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 10px;
+    .card-canvas-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #090d16;
+      padding: 24px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
     }
 
-    /* ID Card Layout */
-    .card {
-      width: 540px;
-      height: 345px;
+    /* ID Card Structure */
+    .id-card {
+      width: 530px;
+      height: 338px;
       background-color: #f1f8fc;
       background-image: url('template.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
-      border-radius: 8px;
+      border-radius: 6px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      margin: 0 auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      flex-shrink: 0;
     }
 
-    /* Details Container on Card */
-    .card-body {
+    .card-inner {
       position: absolute;
-      top: 92px;
-      left: 18px;
-      right: 18px;
+      top: 89px;
+      left: 16px;
+      right: 16px;
       bottom: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    .content-row {
+    .card-top-content {
       display: flex;
       justify-content: space-between;
     }
 
-    .details-table {
-      width: 68%;
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #000;
+    /* Card Details Typography */
+    .info-table {
+      width: 67%;
       border-collapse: collapse;
-      line-height: 1.35;
+      font-size: 12.2px;
+      font-weight: 700;
+      color: #000000;
+      line-height: 1.32;
     }
 
-    .details-table td {
+    .info-table td {
       vertical-align: top;
-      padding-bottom: 2.5px;
+      padding-bottom: 2.2px;
     }
 
-    .details-table td.label-col {
-      width: 95px;
+    .info-table td.lbl {
+      width: 90px;
       white-space: nowrap;
     }
 
-    .details-table td.val-col {
+    .info-table td.val {
       font-weight: 600;
       word-break: break-word;
     }
 
-    .photo-box {
-      width: 120px;
-      height: 145px;
+    /* Photo Frame inside Card */
+    .photo-holder {
+      width: 118px;
+      height: 142px;
       border: 1.5px solid #000;
-      background: #fff;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      margin-top: 5px;
-      margin-right: 5px;
+      margin-top: 3px;
+      margin-right: 2px;
     }
 
-    .photo-box img {
+    .photo-holder img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: none;
     }
 
-    .photo-placeholder {
+    .photo-holder .no-img {
       font-size: 11px;
-      color: #888;
+      font-weight: 600;
+      color: #94a3b8;
       text-align: center;
-      padding: 5px;
+      padding: 6px;
     }
 
-    /* Footer Signatures */
-    .card-footer {
+    /* Card Bottom Signatures */
+    .card-bottom-content {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       font-size: 10.5px;
       font-weight: 700;
-      color: #000;
-      padding-bottom: 4px;
+      color: #000000;
+      padding-bottom: 2px;
     }
 
-    .sp-sign {
+    .sp-signature {
       text-align: center;
-      line-height: 1.2;
+      line-height: 1.15;
     }
 
-    /* Print Setup */
+    /* Footer Section */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #94a3b8;
+      font-size: 13.5px;
+    }
+
+    .credit-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 18px;
+      border-radius: 30px;
+      color: #f1f5f9;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .credit-tag i {
+      color: #ef4444;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+
+    /* Print Style Directives */
     @media print {
       body * {
         visibility: hidden;
       }
-      .card, .card * {
+      .id-card, .id-card * {
         visibility: visible;
       }
-      .card {
+      .id-card {
         position: absolute;
         left: 0;
         top: 0;
@@ -254,193 +488,242 @@
       }
     }
 
-    @media (max-width: 1100px) {
-      .container {
+    @media (max-width: 1140px) {
+      .main-wrapper {
         grid-template-columns: 1fr;
       }
-      .preview-box {
+      .preview-sticky {
         position: static;
       }
-      .card {
-        transform: scale(0.95);
-        transform-origin: top left;
+      .card-canvas-wrap {
+        overflow-x: auto;
       }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- FORM INPUTS -->
-  <div class="form-box">
-    <h2>Senior Citizen Card Details</h2>
-    <div class="form-grid">
-      <div class="form-group full-width">
-        <label>Full Name</label>
-        <input type="text" id="inName" placeholder="Gajendra Bhuyan" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group full-width">
-        <label>Son / Daughter / Wife of</label>
-        <input type="text" id="inFather" placeholder="Ananta Charan Bhuyan" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group full-width">
-        <label>Address</label>
-        <input type="text" id="inAddress" placeholder="Kanheipur, Jajpur Road" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group">
-        <label>PS / District</label>
-        <input type="text" id="inPsDist" placeholder="Jajpur Road, Jajpur" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group">
-        <label>Pin & State</label>
-        <input type="text" id="inPinState" placeholder="Pin- 755019, Odisha" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group">
-        <label>Date of Birth (D.O.B)</label>
-        <input type="text" id="inDob" placeholder="01.05.1966" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group">
-        <label>Registration No.</label>
-        <input type="text" id="inRegNo" placeholder="Optional" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group">
-        <label>Mobile Number</label>
-        <input type="text" id="inMob" placeholder="9437277018" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group">
-        <label>Blood Group</label>
-        <input type="text" id="inBlood" placeholder="B+ve" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group full-width">
-        <label>Aadhaar Number</label>
-        <input type="text" id="inAadhaar" placeholder="383455302068" oninput="updateCard()" />
-      </div>
-
-      <div class="form-group full-width">
-        <label>Passport Photo</label>
-        <input type="file" id="inPhoto" accept="image/*" onchange="previewPhoto(event)" />
-      </div>
-
-      <div class="btn-group">
-        <button class="btn-download" onclick="downloadCard()">Download Card (PNG)</button>
-        <button class="btn-print" onclick="window.print()">Print Card</button>
+  <!-- Header / Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <i class="fa-solid fa-shield-halved"></i>
+      <div>
+        <div class="nav-title">Odisha Police Card Portal</div>
+        <div class="nav-subtitle">Senior Citizen Security Cell Generator</div>
       </div>
     </div>
-  </div>
+    <div class="author-badge">
+      <i class="fa-solid fa-heart"></i> Made By Kahnu
+    </div>
+  </header>
 
-  <!-- LIVE CARD PREVIEW -->
-  <div class="preview-box">
-    <h2>Live Preview</h2>
-    <div class="card" id="idCard">
-      <div class="card-body">
-        <div class="content-row">
-          <table class="details-table">
-            <tr>
-              <td class="label-col">Name</td>
-              <td class="val-col" id="outName">Gajendra Bhuyan</td>
-            </tr>
-            <tr>
-              <td class="label-col">S/o</td>
-              <td class="val-col" id="outFather">Ananta Charan Bhuyan</td>
-            </tr>
-            <tr>
-              <td class="label-col">Address</td>
-              <td class="val-col" id="outAddress">Kanheipur, Jajpur Road</td>
-            </tr>
-            <tr>
-              <td class="label-col">Ps/Dist</td>
-              <td class="val-col" id="outPsDist">Jajpur Road, Jajpur</td>
-            </tr>
-            <tr>
-              <td class="label-col"></td>
-              <td class="val-col" id="outPinState">Pin- 755019, Odisha</td>
-            </tr>
-            <tr>
-              <td class="label-col">D.O.B</td>
-              <td class="val-col" id="outDob">01.05.1966</td>
-            </tr>
-            <tr>
-              <td class="label-col">Regd. No.</td>
-              <td class="val-col" id="outRegNo"></td>
-            </tr>
-            <tr>
-              <td class="label-col">Mob. No.</td>
-              <td class="val-col" id="outMob">9437277018</td>
-            </tr>
-            <tr>
-              <td class="label-col">Blood Group</td>
-              <td class="val-col" id="outBlood">B+ve</td>
-            </tr>
-            <tr>
-              <td class="label-col">Adhara No</td>
-              <td class="val-col" id="outAadhaar">383455302068</td>
-            </tr>
-          </table>
+  <!-- Content Section -->
+  <main class="main-wrapper">
+    
+    <!-- LEFT PANEL: Interactive Form -->
+    <section class="panel">
+      <div class="panel-header">
+        <h2><i class="fa-solid fa-pen-to-square"></i> Card Information</h2>
+      </div>
 
-          <div class="photo-box">
-            <span class="photo-placeholder" id="photoPlaceholder">Passport Photo</span>
-            <img id="cardPhoto" alt="Profile" />
+      <div class="form-grid">
+        <div class="form-group full">
+          <label><i class="fa-solid fa-user"></i> Full Name</label>
+          <input type="text" id="inName" placeholder="Enter Full Name (e.g. Gajendra Bhuyan)" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group full">
+          <label><i class="fa-solid fa-user-group"></i> Son / Daughter / Wife of</label>
+          <input type="text" id="inFather" placeholder="Relation Name (e.g. Ananta Charan Bhuyan)" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group full">
+          <label><i class="fa-solid fa-location-dot"></i> Village / Street / Address</label>
+          <input type="text" id="inAddress" placeholder="e.g. Kanheipur, Jajpur Road" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-building-shield"></i> PS / District</label>
+          <input type="text" id="inPsDist" placeholder="e.g. Jajpur Road, Jajpur" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-map-pin"></i> Pin Code & State</label>
+          <input type="text" id="inPinState" placeholder="e.g. Pin- 755019, Odisha" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-calendar-day"></i> Date of Birth (D.O.B)</label>
+          <input type="text" id="inDob" placeholder="DD.MM.YYYY (e.g. 01.05.1966)" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-hashtag"></i> Registration No.</label>
+          <input type="text" id="inRegNo" placeholder="e.g. REG-2026/09" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-phone"></i> Mobile Number</label>
+          <input type="tel" id="inMob" placeholder="e.g. 9437277018" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-droplet"></i> Blood Group</label>
+          <input type="text" id="inBlood" placeholder="e.g. B+ve / O+ve" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group full">
+          <label><i class="fa-solid fa-id-card"></i> Aadhaar Number</label>
+          <input type="text" id="inAadhaar" placeholder="12 Digit Aadhaar Number" oninput="syncCard()" />
+        </div>
+
+        <div class="form-group full">
+          <label><i class="fa-solid fa-image"></i> Passport Size Photo</label>
+          <div class="file-dropzone">
+            <input type="file" id="inPhoto" accept="image/*" onchange="loadPhoto(event)" />
+            <div class="file-dropzone-content">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>Click or Drop Passport Photo Here</span>
+            </div>
           </div>
         </div>
 
-        <div class="card-footer">
-          <div class="holder-sign">Signature of the Card Holder</div>
-          <div class="sp-sign">
-            Superintendent of Police<br />Jajpur
+        <div class="btn-container">
+          <button class="btn btn-primary" onclick="exportCard()">
+            <i class="fa-solid fa-download"></i> Download Card (HD)
+          </button>
+          <button class="btn btn-dark" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Card
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: Live Card Preview -->
+    <section class="panel preview-sticky">
+      <div class="panel-header">
+        <h2><i class="fa-solid fa-eye"></i> Real-time Preview</h2>
+        <span class="badge-live">LIVE SYNC</span>
+      </div>
+
+      <div class="card-canvas-wrap">
+        <!-- Rendered ID Card -->
+        <div class="id-card" id="idCard">
+          <div class="card-inner">
+            <div class="card-top-content">
+              <table class="info-table">
+                <tr>
+                  <td class="lbl">Name</td>
+                  <td class="val" id="outName">Gajendra Bhuyan</td>
+                </tr>
+                <tr>
+                  <td class="lbl">S/o</td>
+                  <td class="val" id="outFather">Ananta Charan Bhuyan</td>
+                </tr>
+                <tr>
+                  <td class="lbl">Address</td>
+                  <td class="val" id="outAddress">Kanheipur, Jajpur Road</td>
+                </tr>
+                <tr>
+                  <td class="lbl">Ps/Dist</td>
+                  <td class="val" id="outPsDist">Jajpur Road, Jajpur</td>
+                </tr>
+                <tr>
+                  <td class="lbl"></td>
+                  <td class="val" id="outPinState">Pin- 755019, Odisha</td>
+                </tr>
+                <tr>
+                  <td class="lbl">D.O.B</td>
+                  <td class="val" id="outDob">01.05.1966</td>
+                </tr>
+                <tr>
+                  <td class="lbl">Regd. No.</td>
+                  <td class="val" id="outRegNo"></td>
+                </tr>
+                <tr>
+                  <td class="lbl">Mob. No.</td>
+                  <td class="val" id="outMob">9437277018</td>
+                </tr>
+                <tr>
+                  <td class="lbl">Blood Group</td>
+                  <td class="val" id="outBlood">B+ve</td>
+                </tr>
+                <tr>
+                  <td class="lbl">Adhara No</td>
+                  <td class="val" id="outAadhaar">383455302068</td>
+                </tr>
+              </table>
+
+              <div class="photo-holder">
+                <span class="no-img" id="photoTxt">Passport Photo</span>
+                <img id="cardImg" alt="Senior Citizen Photo" />
+              </div>
+            </div>
+
+            <div class="card-bottom-content">
+              <div class="holder-signature">Signature of the Card Holder</div>
+              <div class="sp-signature">
+                Superintendent of Police<br />Jajpur
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+
+  </main>
+
+  <!-- Modern Credit Footer -->
+  <footer class="footer">
+    <div>Odisha Police Senior Citizen ID Card Generator &bull; Designed for fast live generation</div>
+    <div class="credit-tag">
+      Made with <i class="fa-solid fa-heart"></i> by Kahnu
     </div>
-  </div>
-</div>
+  </footer>
 
-<script>
-  function updateCard() {
-    document.getElementById('outName').textContent = document.getElementById('inName').value || 'Gajendra Bhuyan';
-    document.getElementById('outFather').textContent = document.getElementById('inFather').value || 'Ananta Charan Bhuyan';
-    document.getElementById('outAddress').textContent = document.getElementById('inAddress').value || 'Kanheipur, Jajpur Road';
-    document.getElementById('outPsDist').textContent = document.getElementById('inPsDist').value || 'Jajpur Road, Jajpur';
-    document.getElementById('outPinState').textContent = document.getElementById('inPinState').value || 'Pin- 755019, Odisha';
-    document.getElementById('outDob').textContent = document.getElementById('inDob').value || '01.05.1966';
-    document.getElementById('outRegNo').textContent = document.getElementById('inRegNo').value || '';
-    document.getElementById('outMob').textContent = document.getElementById('inMob').value || '9437277018';
-    document.getElementById('outBlood').textContent = document.getElementById('inBlood').value || 'B+ve';
-    document.getElementById('outAadhaar').textContent = document.getElementById('inAadhaar').value || '383455302068';
-  }
-
-  function previewPhoto(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const photo = document.getElementById('cardPhoto');
-        photo.src = e.target.result;
-        photo.style.display = 'block';
-        document.getElementById('photoPlaceholder').style.display = 'none';
-      };
-      reader.readAsDataURL(file);
+  <!-- Script Logic -->
+  <script>
+    function syncCard() {
+      document.getElementById('outName').textContent = document.getElementById('inName').value.trim() || 'Gajendra Bhuyan';
+      document.getElementById('outFather').textContent = document.getElementById('inFather').value.trim() || 'Ananta Charan Bhuyan';
+      document.getElementById('outAddress').textContent = document.getElementById('inAddress').value.trim() || 'Kanheipur, Jajpur Road';
+      document.getElementById('outPsDist').textContent = document.getElementById('inPsDist').value.trim() || 'Jajpur Road, Jajpur';
+      document.getElementById('outPinState').textContent = document.getElementById('inPinState').value.trim() || 'Pin- 755019, Odisha';
+      document.getElementById('outDob').textContent = document.getElementById('inDob').value.trim() || '01.05.1966';
+      document.getElementById('outRegNo').textContent = document.getElementById('inRegNo').value.trim() || '';
+      document.getElementById('outMob').textContent = document.getElementById('inMob').value.trim() || '9437277018';
+      document.getElementById('outBlood').textContent = document.getElementById('inBlood').value.trim() || 'B+ve';
+      document.getElementById('outAadhaar').textContent = document.getElementById('inAadhaar').value.trim() || '383455302068';
     }
-  }
 
-  function downloadCard() {
-    const card = document.getElementById('idCard');
-    html2canvas(card, { scale: 3, useCORS: true }).then(canvas => {
-      const link = document.createElement('a');
-      link.download = (document.getElementById('inName').value || 'Senior_Citizen_Card') + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    });
-  }
-</script>
+    function loadPhoto(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById('cardImg');
+          img.src = e.target.result;
+          img.style.display = 'block';
+          document.getElementById('photoTxt').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
 
+    function exportCard() {
+      const card = document.getElementById('idCard');
+      html2canvas(card, {
+        scale: 4,
+        useCORS: true,
+        backgroundColor: null
+      }).then(canvas => {
+        const name = document.getElementById('inName').value.trim().replace(/\s+/g, '_') || 'Senior_Citizen_Card';
+        const link = document.createElement('a');
+        link.download = name + '_Card.png';
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+      });
+    }
+  </script>
 </body>
 </html>
