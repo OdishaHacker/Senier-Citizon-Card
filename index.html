@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Senior Citizen Card Generator</title>
+  
+  <!-- html2canvas library for downloading image -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #eef2f7;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    /* Form Section */
+    .form-box {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-box h2 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #1a365d;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #4a5568;
+    }
+
+    input, select {
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-group {
+      grid-column: span 2;
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-download {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-download:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-print {
+      background: #0f172a;
+      color: white;
+    }
+
+    .btn-print:hover {
+      background: #334155;
+    }
+
+    /* Preview Section */
+    .preview-box {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      position: sticky;
+      top: 20px;
+    }
+
+    .preview-box h2 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #1a365d;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+
+    /* ID Card Layout */
+    .card {
+      width: 540px;
+      height: 345px;
+      background-color: #f1f8fc;
+      background-image: url('template.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      margin: 0 auto;
+    }
+
+    /* Details Container on Card */
+    .card-body {
+      position: absolute;
+      top: 92px;
+      left: 18px;
+      right: 18px;
+      bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .content-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .details-table {
+      width: 68%;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #000;
+      border-collapse: collapse;
+      line-height: 1.35;
+    }
+
+    .details-table td {
+      vertical-align: top;
+      padding-bottom: 2.5px;
+    }
+
+    .details-table td.label-col {
+      width: 95px;
+      white-space: nowrap;
+    }
+
+    .details-table td.val-col {
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .photo-box {
+      width: 120px;
+      height: 145px;
+      border: 1.5px solid #000;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 5px;
+      margin-right: 5px;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .photo-placeholder {
+      font-size: 11px;
+      color: #888;
+      text-align: center;
+      padding: 5px;
+    }
+
+    /* Footer Signatures */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #000;
+      padding-bottom: 4px;
+    }
+
+    .sp-sign {
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* Print Setup */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .card, .card * {
+        visibility: visible;
+      }
+      .card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .preview-box {
+        position: static;
+      }
+      .card {
+        transform: scale(0.95);
+        transform-origin: top left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- FORM INPUTS -->
+  <div class="form-box">
+    <h2>Senior Citizen Card Details</h2>
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label>Full Name</label>
+        <input type="text" id="inName" placeholder="Gajendra Bhuyan" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group full-width">
+        <label>Son / Daughter / Wife of</label>
+        <input type="text" id="inFather" placeholder="Ananta Charan Bhuyan" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group full-width">
+        <label>Address</label>
+        <input type="text" id="inAddress" placeholder="Kanheipur, Jajpur Road" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group">
+        <label>PS / District</label>
+        <input type="text" id="inPsDist" placeholder="Jajpur Road, Jajpur" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group">
+        <label>Pin & State</label>
+        <input type="text" id="inPinState" placeholder="Pin- 755019, Odisha" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group">
+        <label>Date of Birth (D.O.B)</label>
+        <input type="text" id="inDob" placeholder="01.05.1966" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group">
+        <label>Registration No.</label>
+        <input type="text" id="inRegNo" placeholder="Optional" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="text" id="inMob" placeholder="9437277018" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group">
+        <label>Blood Group</label>
+        <input type="text" id="inBlood" placeholder="B+ve" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group full-width">
+        <label>Aadhaar Number</label>
+        <input type="text" id="inAadhaar" placeholder="383455302068" oninput="updateCard()" />
+      </div>
+
+      <div class="form-group full-width">
+        <label>Passport Photo</label>
+        <input type="file" id="inPhoto" accept="image/*" onchange="previewPhoto(event)" />
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-download" onclick="downloadCard()">Download Card (PNG)</button>
+        <button class="btn-print" onclick="window.print()">Print Card</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE CARD PREVIEW -->
+  <div class="preview-box">
+    <h2>Live Preview</h2>
+    <div class="card" id="idCard">
+      <div class="card-body">
+        <div class="content-row">
+          <table class="details-table">
+            <tr>
+              <td class="label-col">Name</td>
+              <td class="val-col" id="outName">Gajendra Bhuyan</td>
+            </tr>
+            <tr>
+              <td class="label-col">S/o</td>
+              <td class="val-col" id="outFather">Ananta Charan Bhuyan</td>
+            </tr>
+            <tr>
+              <td class="label-col">Address</td>
+              <td class="val-col" id="outAddress">Kanheipur, Jajpur Road</td>
+            </tr>
+            <tr>
+              <td class="label-col">Ps/Dist</td>
+              <td class="val-col" id="outPsDist">Jajpur Road, Jajpur</td>
+            </tr>
+            <tr>
+              <td class="label-col"></td>
+              <td class="val-col" id="outPinState">Pin- 755019, Odisha</td>
+            </tr>
+            <tr>
+              <td class="label-col">D.O.B</td>
+              <td class="val-col" id="outDob">01.05.1966</td>
+            </tr>
+            <tr>
+              <td class="label-col">Regd. No.</td>
+              <td class="val-col" id="outRegNo"></td>
+            </tr>
+            <tr>
+              <td class="label-col">Mob. No.</td>
+              <td class="val-col" id="outMob">9437277018</td>
+            </tr>
+            <tr>
+              <td class="label-col">Blood Group</td>
+              <td class="val-col" id="outBlood">B+ve</td>
+            </tr>
+            <tr>
+              <td class="label-col">Adhara No</td>
+              <td class="val-col" id="outAadhaar">383455302068</td>
+            </tr>
+          </table>
+
+          <div class="photo-box">
+            <span class="photo-placeholder" id="photoPlaceholder">Passport Photo</span>
+            <img id="cardPhoto" alt="Profile" />
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="holder-sign">Signature of the Card Holder</div>
+          <div class="sp-sign">
+            Superintendent of Police<br />Jajpur
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateCard() {
+    document.getElementById('outName').textContent = document.getElementById('inName').value || 'Gajendra Bhuyan';
+    document.getElementById('outFather').textContent = document.getElementById('inFather').value || 'Ananta Charan Bhuyan';
+    document.getElementById('outAddress').textContent = document.getElementById('inAddress').value || 'Kanheipur, Jajpur Road';
+    document.getElementById('outPsDist').textContent = document.getElementById('inPsDist').value || 'Jajpur Road, Jajpur';
+    document.getElementById('outPinState').textContent = document.getElementById('inPinState').value || 'Pin- 755019, Odisha';
+    document.getElementById('outDob').textContent = document.getElementById('inDob').value || '01.05.1966';
+    document.getElementById('outRegNo').textContent = document.getElementById('inRegNo').value || '';
+    document.getElementById('outMob').textContent = document.getElementById('inMob').value || '9437277018';
+    document.getElementById('outBlood').textContent = document.getElementById('inBlood').value || 'B+ve';
+    document.getElementById('outAadhaar').textContent = document.getElementById('inAadhaar').value || '383455302068';
+  }
+
+  function previewPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const photo = document.getElementById('cardPhoto');
+        photo.src = e.target.result;
+        photo.style.display = 'block';
+        document.getElementById('photoPlaceholder').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function downloadCard() {
+    const card = document.getElementById('idCard');
+    html2canvas(card, { scale: 3, useCORS: true }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = (document.getElementById('inName').value || 'Senior_Citizen_Card') + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  }
+</script>
+
+</body>
+</html>
