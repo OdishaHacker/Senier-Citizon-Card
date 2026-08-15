@@ -7,14 +7,14 @@
 
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Export Engines: html2canvas, jsPDF & ag-psd -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/ag-psd@14.3.1/dist/bundle/ag-psd.js"></script>
+  <script src="https://unpkg.com/ag-psd@14.3.1/dist/bundle/ag-psd.js"></script>
 
   <style>
     :root {
@@ -36,6 +36,8 @@
       margin: 0;
       padding: 0;
       font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     body {
@@ -148,7 +150,7 @@
       align-items: start;
     }
 
-    /* Glass Panels */
+    /* Panels */
     .panel {
       background: var(--surface-glass);
       backdrop-filter: blur(16px);
@@ -311,7 +313,7 @@
       color: #334155;
     }
 
-    /* DOWNLOAD & EXPORT CONTROL BOX */
+    /* Export Container */
     .export-box {
       grid-column: span 2;
       background: #f1f5f9;
@@ -400,7 +402,7 @@
       box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
-    /* ID Card Structure */
+    /* Master Card Element */
     .id-card {
       width: 530px;
       height: 338px;
@@ -435,7 +437,7 @@
       width: 67%;
       border-collapse: collapse;
       font-size: 12.2px;
-      font-weight: 700;
+      font-weight: 800;
       color: #000000;
       line-height: 1.32;
     }
@@ -451,7 +453,7 @@
     }
 
     .info-table td.val {
-      font-weight: 600;
+      font-weight: 700;
       word-break: break-word;
     }
 
@@ -488,7 +490,7 @@
       justify-content: space-between;
       align-items: flex-end;
       font-size: 10.5px;
-      font-weight: 700;
+      font-weight: 800;
       color: #000000;
       padding-bottom: 2px;
     }
@@ -524,20 +526,16 @@
       animation: pulse-heart 1.5s infinite;
     }
 
-    /* ========================================================
-       EXACT CARD-ONLY PRINT ENGINE (ZERO BLANK MARGINS)
-       ======================================================== */
+    /* Print Setup */
     @media print {
       @page {
-        size: 85.6mm 54mm; /* Standard CR80 PVC Card Ratio */
+        size: 85.6mm 54mm;
         margin: 0;
       }
-
       *, *::before, *::after {
         box-shadow: none !important;
         text-shadow: none !important;
       }
-
       html, body {
         width: 85.6mm !important;
         height: 54mm !important;
@@ -546,15 +544,12 @@
         background: transparent !important;
         overflow: hidden !important;
       }
-
       body * {
         visibility: hidden !important;
       }
-
       .id-card, .id-card * {
         visibility: visible !important;
       }
-
       .id-card {
         position: fixed !important;
         top: 0 !important;
@@ -602,7 +597,7 @@
   <!-- Main Container -->
   <main class="main-wrapper">
     
-    <!-- LEFT PANEL: Interactive Form -->
+    <!-- LEFT PANEL -->
     <section class="panel">
       <div class="panel-header">
         <h2><i class="fa-solid fa-pen-to-square"></i> Citizen Details Form</h2>
@@ -695,10 +690,10 @@
             <div class="form-group">
               <label><i class="fa-solid fa-sliders"></i> Quality / Resolution</label>
               <select class="export-select" id="exportQuality">
-                <option value="8">8K (Master Quality - 8x)</option>
+                <option value="8">8K (Ultra Master - 8x)</option>
                 <option value="4" selected>4K (Ultra HD - 4x)</option>
                 <option value="2">2K (Quad HD - 2x)</option>
-                <option value="1">Low / Standard (1x)</option>
+                <option value="1">Standard (1x)</option>
               </select>
             </div>
           </div>
@@ -715,7 +710,7 @@
       </div>
     </section>
 
-    <!-- RIGHT PANEL: Live Card Preview -->
+    <!-- RIGHT PANEL -->
     <section class="panel preview-sticky">
       <div class="panel-header">
         <h2><i class="fa-solid fa-eye"></i> Real-time Preview</h2>
@@ -723,7 +718,6 @@
       </div>
 
       <div class="card-canvas-wrap">
-        <!-- Rendered ID Card -->
         <div class="id-card" id="idCard">
           <div class="card-inner">
             <div class="card-top-content">
@@ -789,7 +783,7 @@
 
   </main>
 
-  <!-- Footer Credits -->
+  <!-- Footer -->
   <footer class="footer">
     <div>Odisha Police Senior Citizen ID Card Generator</div>
     <div class="credit-tag">
@@ -800,11 +794,9 @@
   <!-- Script Logic -->
   <script>
     function syncCard() {
-      // Dynamic Relation Type
       const relType = document.getElementById('inRelType').value;
       document.getElementById('outRelType').textContent = relType;
 
-      // Inputs Sync
       document.getElementById('outName').textContent = document.getElementById('inName').value.trim() || 'Gajendra Bhuyan';
       document.getElementById('outFather').textContent = document.getElementById('inFather').value.trim() || 'Ananta Charan Bhuyan';
       document.getElementById('outAddress').textContent = document.getElementById('inAddress').value.trim() || 'Kanheipur, Jajpur Road';
@@ -831,40 +823,60 @@
       }
     }
 
-    // MULTI-FORMAT & RESOLUTION EXPORT ENGINE
+    // ULTRA HD & MULTI-FORMAT EXPORT ENGINE
     async function handleExport() {
       const card = document.getElementById('idCard');
       const format = document.getElementById('exportFormat').value;
-      const scaleVal = parseFloat(document.getElementById('exportQuality').value) || 4;
+      const scaleMultiplier = parseFloat(document.getElementById('exportQuality').value) || 4;
       const btn = document.getElementById('downloadBtn');
-      const name = document.getElementById('inName').value.trim().replace(/\s+/g, '_') || 'Senior_Citizen_Card';
 
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+      // Custom file naming: "[Person Name] - Senior Citizen Card.[ext]"
+      const inputName = document.getElementById('inName').value.trim();
+      const citizenName = inputName ? inputName.replace(/[/\\?%*:|"<>]/g, '').trim() : 'Gajendra Bhuyan';
+      const baseFileName = `${citizenName} - Senior Citizen Card`;
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rendering...';
       btn.disabled = true;
 
       try {
+        // High-Precision HTML2Canvas Rendering
         const canvas = await html2canvas(card, {
-          scale: scaleVal,
+          scale: scaleMultiplier,
           useCORS: true,
+          allowTaint: true,
           backgroundColor: '#f1f8fc',
-          logging: false
+          logging: false,
+          imageTimeout: 0,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('idCard');
+            clonedCard.style.boxShadow = 'none';
+            clonedCard.style.borderRadius = '0';
+          }
         });
 
+        // 1. PNG Export
         if (format === 'png') {
-          const link = document.createElement('a');
-          link.download = `${name}_Card.png`;
-          link.href = canvas.toDataURL('image/png', 1.0);
-          link.click();
+          canvas.toBlob((blob) => {
+            const link = document.createElement('a');
+            link.download = `${baseFileName}.png`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+          }, 'image/png');
         } 
+        // 2. JPG / JPEG Export
         else if (format === 'jpg' || format === 'jpeg') {
-          const link = document.createElement('a');
-          link.download = `${name}_Card.${format}`;
-          link.href = canvas.toDataURL('image/jpeg', 0.98);
-          link.click();
+          canvas.toBlob((blob) => {
+            const link = document.createElement('a');
+            link.download = `${baseFileName}.${format}`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+          }, 'image/jpeg', 1.0);
         } 
+        // 3. PDF Export
         else if (format === 'pdf') {
           const { jsPDF } = window.jspdf;
-          // Standard CR80 PVC card size: 85.6mm x 54mm landscape
           const pdf = new jsPDF({
             orientation: 'landscape',
             unit: 'mm',
@@ -872,26 +884,32 @@
           });
           const imgData = canvas.toDataURL('image/jpeg', 1.0);
           pdf.addImage(imgData, 'JPEG', 0, 0, 85.6, 54);
-          pdf.save(`${name}_Card.pdf`);
+          pdf.save(`${baseFileName}.pdf`);
         } 
+        // 4. PSD (Photoshop Layer) Export
         else if (format === 'psd') {
-          if (window.agPsd) {
-            const psd = {
+          const psdLib = window.agPsd || agPsd;
+          if (psdLib) {
+            // Create Photoshop Document Structure
+            const psdDoc = {
               width: canvas.width,
               height: canvas.height,
               children: [
                 {
-                  name: 'Card Layer',
+                  name: 'Senior Citizen Card HD',
                   canvas: canvas
                 }
               ]
             };
-            const buffer = window.agPsd.writePsd(psd);
+            const buffer = psdLib.writePsd(psdDoc);
             const blob = new Blob([buffer], { type: 'application/octet-stream' });
             const link = document.createElement('a');
-            link.download = `${name}_Card.psd`;
+            link.download = `${baseFileName}.psd`;
             link.href = URL.createObjectURL(blob);
             link.click();
+            URL.revokeObjectURL(link.href);
+          } else {
+            throw new Error('PSD Engine library could not be initialized.');
           }
         }
       } catch (err) {
