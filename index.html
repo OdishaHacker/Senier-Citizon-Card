@@ -14,7 +14,8 @@
   <!-- Export Engines: html2canvas, jsPDF & ag-psd -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://unpkg.com/ag-psd@14.3.1/dist/bundle/ag-psd.js"></script>
+  <!-- Stable ag-psd CDN for PSD Export -->
+  <script src="https://cdn.jsdelivr.net/npm/ag-psd@14.3.0/dist/bundle/ag-psd.js"></script>
 
   <style>
     :root {
@@ -407,14 +408,24 @@
       width: 530px;
       height: 338px;
       background-color: #f1f8fc;
-      background-image: url('template.png');
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
       border-radius: 6px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       flex-shrink: 0;
+    }
+
+    /* Real Image Background for Crystal Clear 8K Scale */
+    .bg-template {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      object-fit: cover;
+      /* Ensures sharp edges for print scaling */
+      image-rendering: high-quality; 
     }
 
     .card-inner {
@@ -426,6 +437,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      z-index: 10;
     }
 
     .card-top-content {
@@ -719,6 +731,10 @@
 
       <div class="card-canvas-wrap">
         <div class="id-card" id="idCard">
+          
+          <!-- NATIVE IMAGE BACKGROUND FOR SHARP EXPORT / PRINT -->
+          <img src="template.png" class="bg-template" crossorigin="anonymous" alt="Card Background" />
+          
           <div class="card-inner">
             <div class="card-top-content">
               <table class="info-table">
@@ -766,7 +782,7 @@
 
               <div class="photo-holder">
                 <span class="no-img" id="photoTxt">Passport Photo</span>
-                <img id="cardImg" alt="Senior Citizen Photo" />
+                <img id="cardImg" alt="Senior Citizen Photo" crossorigin="anonymous" />
               </div>
             </div>
 
@@ -888,15 +904,15 @@
         } 
         // 4. PSD (Photoshop Layer) Export
         else if (format === 'psd') {
-          const psdLib = window.agPsd || agPsd;
+          // Fetch global agPsd variable
+          const psdLib = window.agPsd;
           if (psdLib) {
-            // Create Photoshop Document Structure
             const psdDoc = {
               width: canvas.width,
               height: canvas.height,
               children: [
                 {
-                  name: 'Senior Citizen Card HD',
+                  name: 'Senior Citizen Card Layer',
                   canvas: canvas
                 }
               ]
@@ -909,7 +925,7 @@
             link.click();
             URL.revokeObjectURL(link.href);
           } else {
-            throw new Error('PSD Engine library could not be initialized.');
+            throw new Error('ag-psd library is not loaded properly. Check internet connection.');
           }
         }
       } catch (err) {
