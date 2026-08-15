@@ -5,18 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Senior Citizen Card Generator | Odisha Police</title>
 
-  <!-- Google Fonts & Font Awesome Icons -->
+  <!-- Google Fonts & Font Awesome Icons (Loaded via Preconnect for instant load) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Export Engines: html2canvas, jsPDF & ag-psd -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Stable ag-psd CDN for PSD Export -->
-  <script src="https://cdn.jsdelivr.net/npm/ag-psd@14.3.0/dist/bundle/ag-psd.js"></script>
-
+  <!-- CSS Styles -->
   <style>
     :root {
       --primary: #2563eb;
@@ -415,7 +410,7 @@
       flex-shrink: 0;
     }
 
-    /* Real Image Background for Crystal Clear 8K Scale */
+    /* Background Template Fix: Object-Fit Fill ensures NO cut-offs */
     .bg-template {
       position: absolute;
       top: 0;
@@ -423,9 +418,9 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      object-fit: cover;
-      /* Ensures sharp edges for print scaling */
-      image-rendering: high-quality; 
+      object-fit: fill; /* Fixed Cut-off Issue Here */
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
     }
 
     .card-inner {
@@ -732,7 +727,7 @@
       <div class="card-canvas-wrap">
         <div class="id-card" id="idCard">
           
-          <!-- NATIVE IMAGE BACKGROUND FOR SHARP EXPORT / PRINT -->
+          <!-- Template Image Fix -->
           <img src="template.png" class="bg-template" crossorigin="anonymous" alt="Card Background" />
           
           <div class="card-inner">
@@ -807,22 +802,54 @@
     </div>
   </footer>
 
-  <!-- Script Logic -->
-  <script>
-    function syncCard() {
-      const relType = document.getElementById('inRelType').value;
-      document.getElementById('outRelType').textContent = relType;
+  <!-- Scripts moved to Bottom to fix Page Loading Time -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ag-psd@14.3.0/dist/bundle/ag-psd.js"></script>
 
-      document.getElementById('outName').textContent = document.getElementById('inName').value.trim() || 'Gajendra Bhuyan';
-      document.getElementById('outFather').textContent = document.getElementById('inFather').value.trim() || 'Ananta Charan Bhuyan';
-      document.getElementById('outAddress').textContent = document.getElementById('inAddress').value.trim() || 'Kanheipur, Jajpur Road';
-      document.getElementById('outPsDist').textContent = document.getElementById('inPsDist').value.trim() || 'Jajpur Road, Jajpur';
-      document.getElementById('outPinState').textContent = document.getElementById('inPinState').value.trim() || 'Pin- 755019, Odisha';
-      document.getElementById('outDob').textContent = document.getElementById('inDob').value.trim() || '01.05.1966';
-      document.getElementById('outRegNo').textContent = document.getElementById('inRegNo').value.trim() || '';
-      document.getElementById('outMob').textContent = document.getElementById('inMob').value.trim() || '9437277018';
-      document.getElementById('outBlood').textContent = document.getElementById('inBlood').value.trim() || 'B+ve';
-      document.getElementById('outAadhaar').textContent = document.getElementById('inAadhaar').value.trim() || '383455302068';
+  <!-- High Performance Sync Logic -->
+  <script>
+    // Cached DOM Elements to completely remove lag during typing
+    const ui = {};
+
+    window.addEventListener('DOMContentLoaded', () => {
+      ui.inRelType = document.getElementById('inRelType');
+      ui.outRelType = document.getElementById('outRelType');
+      ui.inName = document.getElementById('inName');
+      ui.outName = document.getElementById('outName');
+      ui.inFather = document.getElementById('inFather');
+      ui.outFather = document.getElementById('outFather');
+      ui.inAddress = document.getElementById('inAddress');
+      ui.outAddress = document.getElementById('outAddress');
+      ui.inPsDist = document.getElementById('inPsDist');
+      ui.outPsDist = document.getElementById('outPsDist');
+      ui.inPinState = document.getElementById('inPinState');
+      ui.outPinState = document.getElementById('outPinState');
+      ui.inDob = document.getElementById('inDob');
+      ui.outDob = document.getElementById('outDob');
+      ui.inRegNo = document.getElementById('inRegNo');
+      ui.outRegNo = document.getElementById('outRegNo');
+      ui.inMob = document.getElementById('inMob');
+      ui.outMob = document.getElementById('outMob');
+      ui.inBlood = document.getElementById('inBlood');
+      ui.outBlood = document.getElementById('outBlood');
+      ui.inAadhaar = document.getElementById('inAadhaar');
+      ui.outAadhaar = document.getElementById('outAadhaar');
+    });
+
+    function syncCard() {
+      if(!ui.outName) return; // Prevent run before load
+      ui.outRelType.textContent = ui.inRelType.value;
+      ui.outName.textContent = ui.inName.value.trim() || 'Gajendra Bhuyan';
+      ui.outFather.textContent = ui.inFather.value.trim() || 'Ananta Charan Bhuyan';
+      ui.outAddress.textContent = ui.inAddress.value.trim() || 'Kanheipur, Jajpur Road';
+      ui.outPsDist.textContent = ui.inPsDist.value.trim() || 'Jajpur Road, Jajpur';
+      ui.outPinState.textContent = ui.inPinState.value.trim() || 'Pin- 755019, Odisha';
+      ui.outDob.textContent = ui.inDob.value.trim() || '01.05.1966';
+      ui.outRegNo.textContent = ui.inRegNo.value.trim() || '';
+      ui.outMob.textContent = ui.inMob.value.trim() || '9437277018';
+      ui.outBlood.textContent = ui.inBlood.value.trim() || 'B+ve';
+      ui.outAadhaar.textContent = ui.inAadhaar.value.trim() || '383455302068';
     }
 
     function loadPhoto(event) {
@@ -839,14 +866,14 @@
       }
     }
 
-    // ULTRA HD & MULTI-FORMAT EXPORT ENGINE
+    // MULTI-FORMAT EXPORT ENGINE
     async function handleExport() {
       const card = document.getElementById('idCard');
       const format = document.getElementById('exportFormat').value;
       const scaleMultiplier = parseFloat(document.getElementById('exportQuality').value) || 4;
       const btn = document.getElementById('downloadBtn');
 
-      // Custom file naming: "[Person Name] - Senior Citizen Card.[ext]"
+      // Naming format
       const inputName = document.getElementById('inName').value.trim();
       const citizenName = inputName ? inputName.replace(/[/\\?%*:|"<>]/g, '').trim() : 'Gajendra Bhuyan';
       const baseFileName = `${citizenName} - Senior Citizen Card`;
@@ -855,7 +882,6 @@
       btn.disabled = true;
 
       try {
-        // High-Precision HTML2Canvas Rendering
         const canvas = await html2canvas(card, {
           scale: scaleMultiplier,
           useCORS: true,
@@ -870,7 +896,6 @@
           }
         });
 
-        // 1. PNG Export
         if (format === 'png') {
           canvas.toBlob((blob) => {
             const link = document.createElement('a');
@@ -880,7 +905,6 @@
             URL.revokeObjectURL(link.href);
           }, 'image/png');
         } 
-        // 2. JPG / JPEG Export
         else if (format === 'jpg' || format === 'jpeg') {
           canvas.toBlob((blob) => {
             const link = document.createElement('a');
@@ -890,7 +914,6 @@
             URL.revokeObjectURL(link.href);
           }, 'image/jpeg', 1.0);
         } 
-        // 3. PDF Export
         else if (format === 'pdf') {
           const { jsPDF } = window.jspdf;
           const pdf = new jsPDF({
@@ -902,9 +925,7 @@
           pdf.addImage(imgData, 'JPEG', 0, 0, 85.6, 54);
           pdf.save(`${baseFileName}.pdf`);
         } 
-        // 4. PSD (Photoshop Layer) Export
         else if (format === 'psd') {
-          // Fetch global agPsd variable
           const psdLib = window.agPsd;
           if (psdLib) {
             const psdDoc = {
@@ -925,7 +946,7 @@
             link.click();
             URL.revokeObjectURL(link.href);
           } else {
-            throw new Error('ag-psd library is not loaded properly. Check internet connection.');
+            throw new Error('PSD Engine failed to load.');
           }
         }
       } catch (err) {
