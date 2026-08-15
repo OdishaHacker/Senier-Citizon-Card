@@ -7,12 +7,14 @@
 
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- html2canvas for High Quality Card Export -->
+  <!-- Export Engines: html2canvas, jsPDF & ag-psd -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ag-psd@14.3.1/dist/bundle/ag-psd.js"></script>
 
   <style>
     :root {
@@ -80,7 +82,6 @@
       display: flex;
       align-items: center;
       gap: 7px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     .author-badge i {
@@ -96,7 +97,7 @@
     /* Hero Header */
     .hero-header {
       text-align: center;
-      padding: 35px 20px 20px;
+      padding: 30px 20px 18px;
     }
 
     .hero-badge {
@@ -111,16 +112,15 @@
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .hero-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 36px;
+      font-size: 34px;
       font-weight: 800;
       color: #ffffff;
       line-height: 1.2;
-      letter-spacing: -0.5px;
     }
 
     .hero-title span {
@@ -137,7 +137,7 @@
       font-weight: 500;
     }
 
-    /* Main Container Grid */
+    /* Main Container */
     .main-wrapper {
       max-width: 1280px;
       margin: 15px auto 0;
@@ -176,10 +176,6 @@
       gap: 10px;
     }
 
-    .panel-header h2 i {
-      color: var(--primary);
-    }
-
     .badge-live {
       background: #dcfce7;
       color: #15803d;
@@ -203,12 +199,12 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      0% { transform: scale(0.95); }
+      70% { transform: scale(1); }
+      100% { transform: scale(0.95); }
     }
 
-    /* Form Controls */
+    /* Form Layout */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -234,11 +230,6 @@
       gap: 6px;
     }
 
-    label i {
-      font-size: 11px;
-      color: #94a3b8;
-    }
-
     .relation-group {
       display: flex;
       gap: 8px;
@@ -257,11 +248,6 @@
       cursor: pointer;
     }
 
-    .select-relation:focus {
-      border-color: var(--primary);
-      background: #fff;
-    }
-
     input[type="text"], input[type="tel"] {
       width: 100%;
       padding: 9px 12px;
@@ -275,7 +261,7 @@
       transition: all 0.2s ease;
     }
 
-    input:focus {
+    input:focus, select:focus {
       background: #ffffff;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
@@ -325,12 +311,41 @@
       color: #334155;
     }
 
-    .btn-container {
+    /* DOWNLOAD & EXPORT CONTROL BOX */
+    .export-box {
+      grid-column: span 2;
+      background: #f1f5f9;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid #cbd5e1;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .export-settings {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-      grid-column: span 2;
+      gap: 10px;
+    }
+
+    .export-select {
+      padding: 9px 12px;
+      border-radius: 6px;
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn-container {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 10px;
     }
 
     .btn {
@@ -368,7 +383,7 @@
       transform: translateY(-1.5px);
     }
 
-    /* Preview Canvas Area */
+    /* Live Preview Section */
     .preview-sticky {
       position: sticky;
       top: 20px;
@@ -510,67 +525,46 @@
     }
 
     /* ========================================================
-       PERFECT 1-PAGE PRINT ENGINE (NO EXTRA SHEETS / BACKGROUNDS)
+       EXACT CARD-ONLY PRINT ENGINE (ZERO BLANK MARGINS)
        ======================================================== */
     @media print {
       @page {
-        size: auto;
-        margin: 10mm;
+        size: 85.6mm 54mm; /* Standard CR80 PVC Card Ratio */
+        margin: 0;
+      }
+
+      *, *::before, *::after {
+        box-shadow: none !important;
+        text-shadow: none !important;
       }
 
       html, body {
-        background: #ffffff !important;
-        color: #000000 !important;
+        width: 85.6mm !important;
+        height: 54mm !important;
         margin: 0 !important;
         padding: 0 !important;
-        height: auto !important;
-        min-height: auto !important;
-        overflow: visible !important;
-      }
-
-      /* Completely remove all layout items from print render */
-      .top-nav,
-      .hero-header,
-      .panel-form,
-      .footer,
-      .panel-header,
-      .badge-live {
-        display: none !important;
-      }
-
-      .main-wrapper {
-        display: block !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        max-width: none !important;
-      }
-
-      .panel.preview-sticky {
-        display: block !important;
         background: transparent !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        overflow: hidden !important;
       }
 
-      .card-canvas-wrap {
-        display: block !important;
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
+      body * {
+        visibility: hidden !important;
+      }
+
+      .id-card, .id-card * {
+        visibility: visible !important;
       }
 
       .id-card {
-        position: relative !important;
+        position: fixed !important;
         top: 0 !important;
         left: 0 !important;
+        width: 85.6mm !important;
+        height: 54mm !important;
         margin: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
         box-shadow: none !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -609,7 +603,7 @@
   <main class="main-wrapper">
     
     <!-- LEFT PANEL: Interactive Form -->
-    <section class="panel panel-form">
+    <section class="panel">
       <div class="panel-header">
         <h2><i class="fa-solid fa-pen-to-square"></i> Citizen Details Form</h2>
       </div>
@@ -620,7 +614,6 @@
           <input type="text" id="inName" placeholder="Enter Full Name (e.g. Gajendra Bhuyan)" oninput="syncCard()" />
         </div>
 
-        <!-- Dynamic Relation Selector -->
         <div class="form-group full">
           <label><i class="fa-solid fa-user-group"></i> Relation Type & Relative Name</label>
           <div class="relation-group">
@@ -685,13 +678,39 @@
           </div>
         </div>
 
-        <div class="btn-container">
-          <button class="btn btn-primary" onclick="exportCard()">
-            <i class="fa-solid fa-download"></i> Download HD Card
-          </button>
-          <button class="btn btn-dark" onclick="window.print()">
-            <i class="fa-solid fa-print"></i> Print Card
-          </button>
+        <!-- EXPORT / DOWNLOAD SETTINGS BOX -->
+        <div class="export-box">
+          <div class="export-settings">
+            <div class="form-group">
+              <label><i class="fa-solid fa-file-export"></i> File Format</label>
+              <select class="export-select" id="exportFormat">
+                <option value="png" selected>PNG (.png)</option>
+                <option value="jpg">JPG (.jpg)</option>
+                <option value="jpeg">JPEG (.jpeg)</option>
+                <option value="pdf">PDF (.pdf)</option>
+                <option value="psd">PSD Photoshop (.psd)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fa-solid fa-sliders"></i> Quality / Resolution</label>
+              <select class="export-select" id="exportQuality">
+                <option value="8">8K (Master Quality - 8x)</option>
+                <option value="4" selected>4K (Ultra HD - 4x)</option>
+                <option value="2">2K (Quad HD - 2x)</option>
+                <option value="1">Low / Standard (1x)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="btn-container">
+            <button class="btn btn-primary" id="downloadBtn" onclick="handleExport()">
+              <i class="fa-solid fa-download"></i> Download Card
+            </button>
+            <button class="btn btn-dark" onclick="window.print()">
+              <i class="fa-solid fa-print"></i> Print Card
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -785,7 +804,7 @@
       const relType = document.getElementById('inRelType').value;
       document.getElementById('outRelType').textContent = relType;
 
-      // Realtime text updates
+      // Inputs Sync
       document.getElementById('outName').textContent = document.getElementById('inName').value.trim() || 'Gajendra Bhuyan';
       document.getElementById('outFather').textContent = document.getElementById('inFather').value.trim() || 'Ananta Charan Bhuyan';
       document.getElementById('outAddress').textContent = document.getElementById('inAddress').value.trim() || 'Kanheipur, Jajpur Road';
@@ -812,20 +831,75 @@
       }
     }
 
-    function exportCard() {
+    // MULTI-FORMAT & RESOLUTION EXPORT ENGINE
+    async function handleExport() {
       const card = document.getElementById('idCard');
-      html2canvas(card, {
-        scale: 4,
-        useCORS: true,
-        backgroundColor: null,
-        logging: false
-      }).then(canvas => {
-        const name = document.getElementById('inName').value.trim().replace(/\s+/g, '_') || 'Senior_Citizen_Card';
-        const link = document.createElement('a');
-        link.download = name + '_Card.png';
-        link.href = canvas.toDataURL('image/png', 1.0);
-        link.click();
-      });
+      const format = document.getElementById('exportFormat').value;
+      const scaleVal = parseFloat(document.getElementById('exportQuality').value) || 4;
+      const btn = document.getElementById('downloadBtn');
+      const name = document.getElementById('inName').value.trim().replace(/\s+/g, '_') || 'Senior_Citizen_Card';
+
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+      btn.disabled = true;
+
+      try {
+        const canvas = await html2canvas(card, {
+          scale: scaleVal,
+          useCORS: true,
+          backgroundColor: '#f1f8fc',
+          logging: false
+        });
+
+        if (format === 'png') {
+          const link = document.createElement('a');
+          link.download = `${name}_Card.png`;
+          link.href = canvas.toDataURL('image/png', 1.0);
+          link.click();
+        } 
+        else if (format === 'jpg' || format === 'jpeg') {
+          const link = document.createElement('a');
+          link.download = `${name}_Card.${format}`;
+          link.href = canvas.toDataURL('image/jpeg', 0.98);
+          link.click();
+        } 
+        else if (format === 'pdf') {
+          const { jsPDF } = window.jspdf;
+          // Standard CR80 PVC card size: 85.6mm x 54mm landscape
+          const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: [85.6, 54]
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 1.0);
+          pdf.addImage(imgData, 'JPEG', 0, 0, 85.6, 54);
+          pdf.save(`${name}_Card.pdf`);
+        } 
+        else if (format === 'psd') {
+          if (window.agPsd) {
+            const psd = {
+              width: canvas.width,
+              height: canvas.height,
+              children: [
+                {
+                  name: 'Card Layer',
+                  canvas: canvas
+                }
+              ]
+            };
+            const buffer = window.agPsd.writePsd(psd);
+            const blob = new Blob([buffer], { type: 'application/octet-stream' });
+            const link = document.createElement('a');
+            link.download = `${name}_Card.psd`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+          }
+        }
+      } catch (err) {
+        alert('Export error: ' + err.message);
+      } finally {
+        btn.innerHTML = '<i class="fa-solid fa-download"></i> Download Card';
+        btn.disabled = false;
+      }
     }
   </script>
 </body>
