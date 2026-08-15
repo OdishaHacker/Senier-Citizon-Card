@@ -93,11 +93,10 @@
       50% { transform: scale(1.25); }
     }
 
-    /* Big Premium Hero Header */
+    /* Hero Header */
     .hero-header {
       text-align: center;
-      padding: 40px 20px 25px;
-      position: relative;
+      padding: 35px 20px 20px;
     }
 
     .hero-badge {
@@ -109,20 +108,19 @@
       color: #60a5fa;
       padding: 6px 18px;
       border-radius: 50px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .hero-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 38px;
+      font-size: 36px;
       font-weight: 800;
       color: #ffffff;
       line-height: 1.2;
       letter-spacing: -0.5px;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .hero-title span {
@@ -132,14 +130,14 @@
     }
 
     .hero-subtitle {
-      font-size: 15px;
+      font-size: 14px;
       color: #94a3b8;
-      max-width: 600px;
-      margin: 10px auto 0;
+      max-width: 580px;
+      margin: 8px auto 0;
       font-weight: 500;
     }
 
-    /* Main Content Wrapper */
+    /* Main Container Grid */
     .main-wrapper {
       max-width: 1280px;
       margin: 15px auto 0;
@@ -155,7 +153,7 @@
       background: var(--surface-glass);
       backdrop-filter: blur(16px);
       border-radius: var(--radius-lg);
-      padding: 26px;
+      padding: 24px;
       box-shadow: var(--shadow-card);
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
@@ -164,13 +162,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
 
     .panel-header h2 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       color: #0f172a;
       display: flex;
@@ -185,9 +183,9 @@
     .badge-live {
       background: #dcfce7;
       color: #15803d;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       display: flex;
       align-items: center;
@@ -196,8 +194,8 @@
 
     .badge-live::before {
       content: '';
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       background: #22c55e;
       border-radius: 50%;
       box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
@@ -210,17 +208,17 @@
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
     }
 
-    /* Form Layout & Relation Field */
+    /* Form Controls */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      gap: 12px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .form-group.full {
@@ -228,7 +226,7 @@
     }
 
     label {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-muted);
       display: flex;
@@ -237,11 +235,10 @@
     }
 
     label i {
-      font-size: 12px;
+      font-size: 11px;
       color: #94a3b8;
     }
 
-    /* Custom Input Group for S/o, C/o, W/o, D/o */
     .relation-group {
       display: flex;
       gap: 8px;
@@ -249,16 +246,15 @@
 
     .select-relation {
       width: 90px;
-      padding: 10px 10px;
+      padding: 9px 8px;
       border-radius: var(--radius-md);
       border: 1.5px solid var(--border);
       background: #f1f5f9;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
       color: #0f172a;
       outline: none;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
     .select-relation:focus {
@@ -268,15 +264,15 @@
 
     input[type="text"], input[type="tel"] {
       width: 100%;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border-radius: var(--radius-md);
       border: 1.5px solid var(--border);
       background: #f8fafc;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 500;
       color: #0f172a;
-      transition: all 0.2s ease;
       outline: none;
+      transition: all 0.2s ease;
     }
 
     input:focus {
@@ -285,11 +281,10 @@
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
-    /* File Upload Box */
     .file-dropzone {
       border: 2px dashed #cbd5e1;
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 12px;
       text-align: center;
       background: #f8fafc;
       cursor: pointer;
@@ -316,41 +311,40 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     .file-dropzone-content i {
-      font-size: 22px;
+      font-size: 20px;
       color: var(--primary);
     }
 
     .file-dropzone-content span {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: #334155;
     }
 
-    /* Action Buttons */
     .btn-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 15px;
+      margin-top: 12px;
       grid-column: span 2;
     }
 
     .btn {
-      padding: 12px 18px;
+      padding: 11px 16px;
       border-radius: var(--radius-md);
       border: none;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
     }
 
     .btn-primary {
@@ -361,7 +355,7 @@
 
     .btn-primary:hover {
       background: linear-gradient(135deg, #172554, #1d4ed8);
-      transform: translateY(-2px);
+      transform: translateY(-1.5px);
     }
 
     .btn-dark {
@@ -371,10 +365,10 @@
 
     .btn-dark:hover {
       background: #1e293b;
-      transform: translateY(-2px);
+      transform: translateY(-1.5px);
     }
 
-    /* Card Preview Wrapper */
+    /* Preview Canvas Area */
     .preview-sticky {
       position: sticky;
       top: 20px;
@@ -385,13 +379,13 @@
       justify-content: center;
       align-items: center;
       background: #090d16;
-      padding: 22px;
+      padding: 20px;
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
-    /* Final Output ID Card */
+    /* ID Card Structure */
     .id-card {
       width: 530px;
       height: 338px;
@@ -422,7 +416,6 @@
       justify-content: space-between;
     }
 
-    /* Details Typography */
     .info-table {
       width: 67%;
       border-collapse: collapse;
@@ -447,7 +440,6 @@
       word-break: break-word;
     }
 
-    /* Photo Frame inside Card */
     .photo-holder {
       width: 118px;
       height: 142px;
@@ -476,7 +468,6 @@
       padding: 6px;
     }
 
-    /* Footer Signatures */
     .card-bottom-content {
       display: flex;
       justify-content: space-between;
@@ -492,12 +483,12 @@
       line-height: 1.15;
     }
 
-    /* Footer Credits */
+    /* Footer */
     .footer {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 35px;
       color: #94a3b8;
-      font-size: 13.5px;
+      font-size: 13px;
     }
 
     .credit-tag {
@@ -506,11 +497,11 @@
       gap: 6px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 8px 20px;
+      padding: 7px 18px;
       border-radius: 30px;
       color: #f1f5f9;
       font-weight: 700;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .credit-tag i {
@@ -518,37 +509,78 @@
       animation: pulse-heart 1.5s infinite;
     }
 
-    /* Print Configuration */
+    /* ========================================================
+       PERFECT 1-PAGE PRINT ENGINE (NO EXTRA SHEETS / BACKGROUNDS)
+       ======================================================== */
     @media print {
-      body * {
-        visibility: hidden;
+      @page {
+        size: auto;
+        margin: 10mm;
       }
-      .id-card, .id-card * {
-        visibility: visible;
+
+      html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
       }
+
+      /* Completely remove all layout items from print render */
+      .top-nav,
+      .hero-header,
+      .panel-form,
+      .footer,
+      .panel-header,
+      .badge-live {
+        display: none !important;
+      }
+
+      .main-wrapper {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+      }
+
+      .panel.preview-sticky {
+        display: block !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .card-canvas-wrap {
+        display: block !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
       .id-card {
-        position: absolute;
-        left: 0;
-        top: 0;
-        box-shadow: none;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
     }
 
     @media (max-width: 1140px) {
-      .hero-title {
-        font-size: 28px;
-      }
-      .main-wrapper {
-        grid-template-columns: 1fr;
-      }
-      .preview-sticky {
-        position: static;
-      }
-      .card-canvas-wrap {
-        overflow-x: auto;
-      }
+      .hero-title { font-size: 26px; }
+      .main-wrapper { grid-template-columns: 1fr; }
+      .preview-sticky { position: static; }
+      .card-canvas-wrap { overflow-x: auto; }
     }
   </style>
 </head>
@@ -564,7 +596,7 @@
     </div>
   </div>
 
-  <!-- Big Hero Header -->
+  <!-- Hero Header -->
   <header class="hero-header">
     <div class="hero-badge">
       <i class="fa-solid fa-star"></i> ODISHA POLICE &bull; JAJPUR DISTRICT
@@ -577,7 +609,7 @@
   <main class="main-wrapper">
     
     <!-- LEFT PANEL: Interactive Form -->
-    <section class="panel">
+    <section class="panel panel-form">
       <div class="panel-header">
         <h2><i class="fa-solid fa-pen-to-square"></i> Citizen Details Form</h2>
       </div>
@@ -588,7 +620,7 @@
           <input type="text" id="inName" placeholder="Enter Full Name (e.g. Gajendra Bhuyan)" oninput="syncCard()" />
         </div>
 
-        <!-- Dynamic Relation Selector & Input -->
+        <!-- Dynamic Relation Selector -->
         <div class="form-group full">
           <label><i class="fa-solid fa-user-group"></i> Relation Type & Relative Name</label>
           <div class="relation-group">
@@ -746,14 +778,14 @@
     </div>
   </footer>
 
-  <!-- Realtime Script Logic -->
+  <!-- Script Logic -->
   <script>
     function syncCard() {
-      // Dynamic Relation Type (S/o, C/o, W/o, D/o)
+      // Dynamic Relation Type
       const relType = document.getElementById('inRelType').value;
       document.getElementById('outRelType').textContent = relType;
 
-      // Inputs Sync
+      // Realtime text updates
       document.getElementById('outName').textContent = document.getElementById('inName').value.trim() || 'Gajendra Bhuyan';
       document.getElementById('outFather').textContent = document.getElementById('inFather').value.trim() || 'Ananta Charan Bhuyan';
       document.getElementById('outAddress').textContent = document.getElementById('inAddress').value.trim() || 'Kanheipur, Jajpur Road';
@@ -785,7 +817,8 @@
       html2canvas(card, {
         scale: 4,
         useCORS: true,
-        backgroundColor: null
+        backgroundColor: null,
+        logging: false
       }).then(canvas => {
         const name = document.getElementById('inName').value.trim().replace(/\s+/g, '_') || 'Senior_Citizen_Card';
         const link = document.createElement('a');
