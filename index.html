@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <!-- CSS Styles -->
   <style>
     :root {
@@ -246,6 +246,33 @@
       cursor: pointer;
     }
 
+    /* Blood Group Selector */
+    .select-blood {
+      width: 100%;
+      padding: 9px 12px;
+      padding-right: 32px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      background-color: #f8fafc;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 14px;
+    }
+
+    .select-blood:hover {
+      border-color: #94a3b8;
+    }
+
     input[type="text"], input[type="tel"] {
       width: 100%;
       padding: 9px 12px;
@@ -260,7 +287,7 @@
     }
 
     input:focus, select:focus {
-      background: #ffffff;
+      background-color: #ffffff;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
@@ -603,7 +630,7 @@
 
   <!-- Main Container -->
   <main class="main-wrapper">
-    
+
     <!-- LEFT PANEL -->
     <section class="panel">
       <div class="panel-header">
@@ -661,7 +688,32 @@
 
         <div class="form-group">
           <label><i class="fa-solid fa-droplet"></i> Blood Group</label>
-          <input type="text" id="inBlood" placeholder="e.g. B+ve / O+ve" oninput="syncCard()" />
+          <select class="select-blood" id="inBlood" onchange="syncCard()">
+            <optgroup label="Common Groups">
+              <option value="A+ve">A+ve</option>
+              <option value="A-ve">A-ve</option>
+              <option value="B+ve" selected>B+ve</option>
+              <option value="B-ve">B-ve</option>
+              <option value="AB+ve">AB+ve</option>
+              <option value="AB-ve">AB-ve</option>
+              <option value="O+ve">O+ve</option>
+              <option value="O-ve">O-ve</option>
+            </optgroup>
+            <optgroup label="Sub Groups (A1 / A2)">
+              <option value="A1+ve">A1+ve</option>
+              <option value="A1-ve">A1-ve</option>
+              <option value="A2+ve">A2+ve</option>
+              <option value="A2-ve">A2-ve</option>
+              <option value="A1B+ve">A1B+ve</option>
+              <option value="A1B-ve">A1B-ve</option>
+              <option value="A2B+ve">A2B+ve</option>
+              <option value="A2B-ve">A2B-ve</option>
+            </optgroup>
+            <optgroup label="Rare Groups">
+              <option value="Bombay (hh)">Bombay (hh)</option>
+              <option value="Rh-null">Rh-null</option>
+            </optgroup>
+          </select>
         </div>
 
         <div class="form-group full">
@@ -726,10 +778,10 @@
 
       <div class="card-canvas-wrap">
         <div class="id-card" id="idCard">
-          
+
           <!-- Template Image Fix -->
           <img src="template.png" class="bg-template" crossorigin="anonymous" alt="Card Background" />
-          
+
           <div class="card-inner">
             <div class="card-top-content">
               <table class="info-table">
@@ -848,7 +900,7 @@
       ui.outDob.textContent = ui.inDob.value.trim() || '01.05.1966';
       ui.outRegNo.textContent = ui.inRegNo.value.trim() || '';
       ui.outMob.textContent = ui.inMob.value.trim() || '9437277018';
-      ui.outBlood.textContent = ui.inBlood.value.trim() || 'B+ve';
+      ui.outBlood.textContent = ui.inBlood.value || 'B+ve';
       ui.outAadhaar.textContent = ui.inAadhaar.value.trim() || '383455302068';
     }
 
@@ -904,7 +956,7 @@
             link.click();
             URL.revokeObjectURL(link.href);
           }, 'image/png');
-        } 
+        }
         else if (format === 'jpg' || format === 'jpeg') {
           canvas.toBlob((blob) => {
             const link = document.createElement('a');
@@ -913,7 +965,7 @@
             link.click();
             URL.revokeObjectURL(link.href);
           }, 'image/jpeg', 1.0);
-        } 
+        }
         else if (format === 'pdf') {
           const { jsPDF } = window.jspdf;
           const pdf = new jsPDF({
@@ -924,7 +976,7 @@
           const imgData = canvas.toDataURL('image/jpeg', 1.0);
           pdf.addImage(imgData, 'JPEG', 0, 0, 85.6, 54);
           pdf.save(`${baseFileName}.pdf`);
-        } 
+        }
         else if (format === 'psd') {
           const psdLib = window.agPsd;
           if (psdLib) {
